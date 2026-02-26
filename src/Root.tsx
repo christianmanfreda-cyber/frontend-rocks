@@ -3,7 +3,7 @@ import { Link } from "react-router";
 import { PokeAPI } from "./api";
 */
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { PokeAPI } from "./api";
 
 type Props = {
@@ -114,21 +114,10 @@ export function Root() {
   }, []);
 
   return (
-    <div className="flex justify-center items-center min-h-screen" style={{ backgroundImage: "url('/geodude-pattern.png')", backgroundRepeat: "repeat" }}>
-      <Card
-        id={25}
-        image="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/25.png"
-        name="Pikachu"
-        types={["electric"]}
-        stats={{
-          hp: 35,
-          attack: 55,
-          defense: 40,
-          spAtk: 50,
-          spDef: 50,
-          speed: 90,
-        }}
-      />
+    <div className="flex justify-center items-center min-h-screen gap-4 flex-wrap p-4" style={{ backgroundImage: "url('/geodude-pattern.png')", backgroundRepeat: "repeat" }}>
+      {pokemons.map((pokemon) => (
+        <Card key={pokemon.id} {...pokemon} />
+      ))}
     </div>
   )
 }
@@ -157,6 +146,7 @@ const typeColors: { [key: string]: string } = {
   ghost: "bg-indigo-700",
   steel: "bg-gray-500",
 };
+
 
 /*
 interface PokemonCard {
