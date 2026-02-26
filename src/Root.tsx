@@ -3,6 +3,10 @@ import { Link } from "react-router";
 import { PokeAPI } from "./api";
 */
 
+import { useEffect } from "react";
+import { useState } from "react";
+import { PokeAPI } from "./api";
+
 type Props = {
    id: number;
   image: string;
@@ -17,6 +21,33 @@ type Props = {
     speed: number;
   }; 
 };
+
+
+interface PokemonCard extends Props {}
+
+async function fetchPokemons(offset: number): Promise<PokemonCard[]> {
+  const list = await PokeAPI.listPokemons(offset, 20);
+  const pokemons = await Promise.all(
+    list.results.map(async (item: { name: string; url: string }) => {
+      const pokemon = await PokeAPI.getPokemonByName(item.name);
+      return {
+        id: pokemon.id,
+        image: pokemon.sprites.other?.["official-artwork"].front_default ?? "",
+        name: pokemon.name,
+        types: pokemon.types.map((type: any) => type.type.name),
+        stats: {
+          hp: pokemon.stats[0].base_stat,
+          attack: pokemon.stats[1].base_stat,
+          defense: pokemon.stats[2].base_stat,
+          spAtk: pokemon.stats[3].base_stat,
+          spDef: pokemon.stats[4].base_stat,
+          speed: pokemon.stats[5].base_stat,
+        },
+      };
+    }),
+  );
+  return pokemons;
+}
 
 function Card(props: Props) {
   const stats = props.stats || {
@@ -74,6 +105,9 @@ function StatBar({ label, value }: { label: string; value: number }) {
     </div>
   );
 }
+
+
+    <Card
 export function Root() {
   return (
     <div className="flex justify-center items-center min-h-screen" style={{ backgroundImage: "url('/geodude-pattern.png')", backgroundRepeat: "repeat" }}>
