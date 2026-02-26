@@ -47,13 +47,13 @@ function Card(props: Props) {
           </span>
         ))}
       </div>
-      <div className="mt-4">
-        <p className="text-sm text-gray-600">HP: {stats.hp}</p>
-        <p className="text-sm text-gray-600">Attack: {stats.attack}</p>
-        <p className="text-sm text-gray-600">Defense: {stats.defense}</p>
-        <p className="text-sm text-gray-600">Sp. Atk: {stats.spAtk}</p>
-        <p className="text-sm text-gray-600">Sp. Def: {stats.spDef}</p>
-        <p className="text-sm text-gray-600">Speed: {stats.speed}</p>
+      <div className="mt-4 space-y-2">
+        <StatBar label="HP" value={stats.hp} />
+        <StatBar label="Atk" value={stats.attack} />
+        <StatBar label="Def" value={stats.defense} />
+        <StatBar label="SpA" value={stats.spAtk} />
+        <StatBar label="SpD" value={stats.spDef} />
+        <StatBar label="Spe" value={stats.speed} />
       </div>
     </div>
   )
