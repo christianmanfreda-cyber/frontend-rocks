@@ -107,7 +107,6 @@ function StatBar({ label, value }: { label: string; value: number }) {
 }
 
 
-    <Card
 export function Root() {
   return (
     <div className="flex justify-center items-center min-h-screen" style={{ backgroundImage: "url('/geodude-pattern.png')", backgroundRepeat: "repeat" }}>
