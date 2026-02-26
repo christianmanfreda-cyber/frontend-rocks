@@ -3,50 +3,100 @@ import { Link } from "react-router";
 import { PokeAPI } from "./api";
 */
 
-interface Props {
-  id: number;
+type Props = {
+   id: number;
   image: string;
   name: string;
   types: string[];
-}
+  stats: {
+    hp: number;
+    attack: number;
+    defense: number;
+    spAtk: number;
+    spDef: number;
+    speed: number;
+  }; 
+};
 
-export const Card: React.FC<Props> = (props) => (
-  <div className="bg-white border border-gray-300 rounded-lg shadow-md relative w-2xs flex items-center justify-center h-80">
-    <h4 className="text-xl text-gray-900 tracking-wide font-bold absolute left-4 top-2">
-      {props.name} -{" "}
-      <span className="text-gray-700 font-medium">{props.id}</span>
-    </h4>
+function Card(props: Props) {
+  const stats = props.stats || {
+    hp: 35,
+    attack: 55,
+    defense: 40,
+    spAtk: 50,
+    spDef: 50,
+    speed: 90,
+  };
 
-    <img
-      src={props.image}
-      alt={props.name}
-      className="w-36 h-36 object-contain"
-    />
-
-    <div className="text-sm text-gray-700 absolute right-2 bottom-2">
-      <div className="flex justify-center space-x-2">
+  return (
+    <div className="bg-white rounded-lg shadow-lg p-4 w-72">
+      <img 
+        src={props.image} 
+        alt={props.name} 
+        className="w-full h-48 object-cover rounded-t-lg" 
+      />
+      <h2 className="text-xl font-bold mb-2">{props.name}</h2>
+      <p className="text-sm text-gray-600 mb-3">ID: #{props.id}</p>
+      <div className="flex space-x-2">
         {props.types.map((type) => (
           <span
             key={type}
-            className={`font-bold text-white px-3 py-1 rounded-md text-xs ${getTypeColor(type)}`}
+            className={`text-white text-xs font-semibold px-2 py-1 rounded ${getTypeColor(type)}`}
           >
             {type}
           </span>
         ))}
       </div>
+      <div className="mt-4">
+        <p className="text-sm text-gray-600">HP: {stats.hp}</p>
+        <p className="text-sm text-gray-600">Attack: {stats.attack}</p>
+        <p className="text-sm text-gray-600">Defense: {stats.defense}</p>
+        <p className="text-sm text-gray-600">Sp. Atk: {stats.spAtk}</p>
+        <p className="text-sm text-gray-600">Sp. Def: {stats.spDef}</p>
+        <p className="text-sm text-gray-600">Speed: {stats.speed}</p>
+      </div>
     </div>
-  </div>
-);
-export function Root() {
-  return <Card
-    id={0}
-    image="https://placeholdit.com/400/dddddd/999999"
-    name="Pikachu"
-    types={["grass"]}
-    />
+  )
 }
+
+function StatBar({ label, value }: { label: string; value: number }) {
+  const percentage = Math.min((value / 150) * 100, 100);
+  return (
+    <div className="flex items-center gap-2 text-xs">
+      <span className="w-8 font-semibold text-gray-700">{label}</span>
+      <div className="flex-1 bg-gray-200 rounded-full h-2">
+        <div 
+          className="bg-blue-500 h-2 rounded-full" 
+          style={{ width: `${percentage}%` }}
+        />
+      </div>
+      <span className="w-8 text-gray-600">{value}</span>
+    </div>
+  );
+}
+export function Root() {
+  return (
+    <div className="flex justify-center items-center min-h-screen" style={{ backgroundImage: "url('/geodude-pattern.png')", backgroundRepeat: "repeat" }}>
+      <Card
+        id={25}
+        image="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/25.png"
+        name="Pikachu"
+        types={["electric"]}
+        stats={{
+          hp: 35,
+          attack: 55,
+          defense: 40,
+          spAtk: 50,
+          spDef: 50,
+          speed: 90,
+        }}
+      />
+    </div>
+  )
+}
+
 function getTypeColor(type: string): string {
-  return typeColors[type];
+  return typeColors[type] || typeColors.normal;
 }
 
 const typeColors: { [key: string]: string } = {
