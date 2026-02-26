@@ -3,7 +3,6 @@ import { Link } from "react-router";
 import { PokeAPI } from "./api";
 */
 
-import { useEffect } from "react";
 import { useState } from "react";
 import { PokeAPI } from "./api";
 
@@ -108,6 +107,12 @@ function StatBar({ label, value }: { label: string; value: number }) {
 
 
 export function Root() {
+  const [pokemons, setPokemons] = useState<PokemonCard[]>([]);
+
+  useEffect(() => {
+    fetchPokemons(0).then(setPokemons);
+  }, []);
+
   return (
     <div className="flex justify-center items-center min-h-screen" style={{ backgroundImage: "url('/geodude-pattern.png')", backgroundRepeat: "repeat" }}>
       <Card
