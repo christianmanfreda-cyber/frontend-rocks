@@ -23,7 +23,7 @@ export const App = () => {
           {title}
         </h1>
 
-        <h2 className="text-center font-bold text-xl mb-6">Vite + React</h2>
+        <h2 className="text-center font-bold text-xl mb-6">Vite + React</h2>    
 
         <div className="flex flex-col items-center space-y-4">
           <button
